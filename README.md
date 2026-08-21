@@ -2,6 +2,8 @@
 
 [繁體中文](README.zh-TW.md)
 
+Current version: `0.1.0`
+
 Five reusable agent skills distilled from building, reviewing, planning, implementing, verifying, and delivering a production-sensitive AI data-monitoring project.
 
 These skills teach workflow. They do not copy project-specific companies, schemas, commands, scoring rules, or production paths into other repositories.
@@ -152,6 +154,11 @@ See [the ai-infrastructure-monitor validation case](docs/validation/ai-infrastru
 ## Publishing and versioning
 
 Use semantic tags for public releases. Record the source commit in release notes or your consumer lockfile. Review skill changes like code: show the diff, validate every skill, and avoid silently changing invocation policy or authorization boundaries.
+
+To improve the collection, read [CONTRIBUTING.md](CONTRIBUTING.md), follow the
+[iteration workflow](docs/ITERATION-WORKFLOW.md), and record behavioral evidence
+with the [validation case template](docs/validation/CASE-TEMPLATE.md). Release
+history is recorded in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
