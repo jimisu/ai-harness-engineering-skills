@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan-Gated Change"
+  short_description: "Gate risky changes behind explicit plans and approval"
+  default_prompt: "Use $plan-gated-change to decide whether this change needs an execution plan and define the approval boundary."

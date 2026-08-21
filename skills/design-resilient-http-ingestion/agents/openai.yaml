@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Resilient HTTP Ingestion"
+  short_description: "Design bounded, deterministic HTTP acquisition safety"
+  default_prompt: "Use $design-resilient-http-ingestion to audit this pipeline and propose a safe timeout, retry, abort, and persistence contract."

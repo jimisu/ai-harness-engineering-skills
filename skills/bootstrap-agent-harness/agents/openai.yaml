@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bootstrap Agent Harness"
+  short_description: "Establish safe agent rules, maps, plans, and checks"
+  default_prompt: "Use $bootstrap-agent-harness to assess this repository and propose a minimal safe AI-agent harness."

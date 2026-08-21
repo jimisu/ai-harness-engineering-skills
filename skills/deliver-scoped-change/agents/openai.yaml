@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deliver Scoped Change"
+  short_description: "Keep changes isolated through commit and pull request"
+  default_prompt: "Use $deliver-scoped-change to package this authorized change into the correct branch and pull request without mixing scope."

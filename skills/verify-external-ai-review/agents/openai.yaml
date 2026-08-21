@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify External AI Review"
+  short_description: "Validate AI review findings against code and tests"
+  default_prompt: "Use $verify-external-ai-review to validate this external AI review against the current repository."
