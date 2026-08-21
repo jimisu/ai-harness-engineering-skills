@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+目前版本：`0.1.0`
+
 這是一組從真實 AI 資料監控專案的建立、審查、計畫、實作、驗證與 PR 交付流程中蒸餾出的五個通用 Skills。
 
 它們保存的是工作方法，不會把特定公司、資料格式、評分權重、production 路徑或專案指令硬套到其他 repository。
@@ -153,6 +155,11 @@ python3 scripts/validate_skills.py
 ## 發布與版本管理
 
 公開發布建議使用 semantic tag，並在 release notes 或 consumer lockfile 記錄 source commit。修改 Skill 時也應像 code review：檢查 diff、重新驗證，不能偷偷改 invocation policy 或授權邊界。
+
+若要改善本套件，請閱讀 [貢獻規則](CONTRIBUTING.md)、遵循
+[迭代流程](docs/ITERATION-WORKFLOW.md)，並用
+[驗證案例模板](docs/validation/CASE-TEMPLATE.md) 記錄行為證據。版本變更記錄在
+[CHANGELOG](CHANGELOG.md)。
 
 ## License
 
