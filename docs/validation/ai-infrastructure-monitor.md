@@ -10,7 +10,29 @@ The five skills were distilled from and checked against real repository events. 
 | `plan-gated-change` | Compare a one-line verification command with cross-cutting HTTP reliability work. | Allow isolated semantically neutral maintenance without a plan; require a plan for production acquisition behavior crossing multiple boundaries. | `verify:agent` was a package-script-only checkpoint; timeout/retry required a completed execution plan and explicit human decisions. |
 | `deliver-scoped-change` | Timeout/retry work was accidentally implemented on the existing review PR branch. | Detect mixed purpose, preserve work, checkpoint it, transfer it to a branch based on current main, and create a separate draft PR without rewriting history. | Work moved through a recoverable checkpoint and cherry-pick; the new SHA was correctly treated as normal; PR #2 contained one commit and 13 authorized files. |
 | `bootstrap-agent-harness` | The repository initially had commands and domain safeguards but lacked a unified agent guide, architecture map, plan policy, and completion entry point. | Assess first; create documentation and executable guardrails in small checkpoints; avoid overstated claims. | The project added `AGENTS.md`, architecture and plan guides, then `verify:agent`; docs explicitly distinguished dry-run, atomic replacement, fixtures, human approval, and production facts. |
-| `design-resilient-http-ingestion` | Seven HTTP acquisition paths lacked timeout/retry consistency. | Inventory all paths; design full-body timeout, selective bounded retry, cancellation, deterministic tests, snapshot/canonical boundaries, and a plan. | Shared transport covered 15-second attempts, three attempts, allow-listed statuses, Retry-After cap, caller abort, deterministic details, legacy acquisition, and no failed-attempt snapshots. Recorded verification passed 170 ingestion tests and five downstream verifiers with canonical hashes unchanged. |
+| `design-resilient-http-ingestion` | Seven HTTP acquisition paths lacked timeout/retry consistency. | Inventory all paths; design full-body timeout, selective bounded retry, cancellation, deterministic tests, snapshot/canonical boundaries, and a plan. | Shared transport covered 15-second attempts, three attempts, allow-listed statuses, Retry-After cap, caller abort, deterministic details, and legacy acquisition. Failed retryable transport attempts do not individually reach collector snapshot persistence, and no failed ingestion outcome promotes canonical observations. Recorded verification passed 170 ingestion tests and five downstream verifiers with canonical hashes unchanged. |
+
+### HTTP persistence-boundary qualification
+
+The implementation distinguishes transport failure from later ingestion
+failure:
+
+- Failed retryable transport attempts are handled inside the shared transport
+  and do not individually reach collector snapshot persistence. When retries
+  are exhausted, no response is returned to the collector for persistence.
+- A non-retryable HTTP document response may be returned to a collector and
+  persisted as a raw snapshot and manifest before its status is rejected by
+  parsing.
+- An HTTP 200 document rejected by parsing or domain validation may likewise
+  remain as an unpromoted raw snapshot and manifest.
+- None of these failed ingestion outcomes promotes canonical observations.
+
+Tests directly prove that exhausted transient network retries on the legacy
+TSMC path leave no snapshot or manifest, and transport unit tests prove retry
+classification, exhaustion, and header/body timeout behavior. The broader
+absence of snapshot persistence for transport failures is established by
+tracing current persistence calls after successful transport return; it is
+not directly integration-tested across every acquisition path.
 
 ## Cross-skill assertions
 
