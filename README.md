@@ -2,7 +2,7 @@
 
 [繁體中文](README.zh-TW.md)
 
-Current version: `0.1.1`
+Current version: `0.1.2`
 
 Five reusable agent skills distilled from building, reviewing, planning, implementing, verifying, and delivering a production-sensitive AI data-monitoring project.
 

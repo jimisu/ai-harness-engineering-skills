@@ -34,6 +34,14 @@ absence of snapshot persistence for transport failures is established by
 tracing current persistence calls after successful transport return; it is
 not directly integration-tested across every acquisition path.
 
+## Controlled A/B evaluation
+
+A controlled comparison evaluated `verify-external-ai-review` against a no-skill control on the same review task. The skill improved output consistency, auditability, and classification structure. In this single experiment, it did not materially outperform the control in technical finding accuracy.
+
+The evaluation prompt already contained many skill-like instructions, which reduced the measurable marginal benefit of the skill. This result supports the workflow and output-contract refinements recorded here; it does not prove general superiority across agents, repositories, prompts, or review domains.
+
+The evaluation also exposed reusable clarification needs: classification must remain separate from priority, confirmed fixes still require explicit implementation authorization, true non-defect facts need an explicit disposition, deterministic-test advice must consider every relevant injected dependency, and execution-plan history must not be mistaken for current operational authority.
+
 ## Cross-skill assertions
 
 - Repository-local instructions remain authoritative.
