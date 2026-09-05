@@ -5,6 +5,22 @@ All notable changes to this project are documented here. Releases follow
 
 ## [Unreleased]
 
+### Added
+
+- Stated the collection as governed agent workflows, with core change-control
+  skills separated from the optional HTTP ingestion skill.
+- Documented Agent Skills installer and Claude Code marketplace/plugin install
+  paths, plus `.claude-plugin/` manifests for discovery.
+- Added disposable playground scenarios for review verification, mixed dirty
+  work, and read-only harness assessment.
+- Added an adoption roadmap that keeps future skills on the verify → plan →
+  deliver chain.
+
+### Changed
+
+- README installation now pins the documented `v0.1.2` tag in the copy example
+  and tells consumers to inspect installer file lists before committing.
+
 ## [0.1.2] - 2026-08-25
 
 ### Changed

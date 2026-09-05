@@ -1,0 +1,32 @@
+{
+  "name": "ai-harness-engineering-skills",
+  "owner": {
+    "name": "jimisu",
+    "url": "https://github.com/jimisu"
+  },
+  "metadata": {
+    "description": "Change-control skills for coding agents working in production-sensitive repositories."
+  },
+  "plugins": [
+    {
+      "name": "ai-harness-engineering-skills",
+      "source": "./",
+      "description": "Verify reviews, gate plans, bootstrap a minimal harness, and deliver one scoped PR. Skills cannot authorize themselves.",
+      "version": "0.1.2",
+      "author": {
+        "name": "jimisu",
+        "url": "https://github.com/jimisu"
+      },
+      "homepage": "https://github.com/jimisu/ai-harness-engineering-skills",
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./skills/bootstrap-agent-harness",
+        "./skills/verify-external-ai-review",
+        "./skills/plan-gated-change",
+        "./skills/deliver-scoped-change",
+        "./skills/design-resilient-http-ingestion"
+      ]
+    }
+  ]
+}

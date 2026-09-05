@@ -2,6 +2,7 @@
 """Validate the portable structure of every skill in this repository."""
 
 from pathlib import Path
+import json
 import re
 import sys
 
@@ -55,12 +56,41 @@ def validate_skill(directory: Path) -> list[str]:
     return errors
 
 
+def validate_plugin_manifests() -> list[str]:
+    errors: list[str] = []
+    for relative in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
+        path = ROOT / relative
+        if not path.is_file():
+            errors.append(f"missing {relative}")
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"{relative}: invalid JSON ({exc})")
+            continue
+        if not isinstance(data, dict) or not data.get("name"):
+            errors.append(f"{relative}: missing name")
+    marketplace = ROOT / ".claude-plugin" / "marketplace.json"
+    if marketplace.is_file():
+        try:
+            catalog = json.loads(marketplace.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            catalog = {}
+        for plugin in catalog.get("plugins", []):
+            for skill_path in plugin.get("skills", []):
+                directory = (ROOT / skill_path).resolve()
+                if not (directory / "SKILL.md").is_file():
+                    errors.append(f"marketplace skill path missing SKILL.md: {skill_path}")
+    return errors
+
+
 def main() -> int:
     directories = sorted(path for path in SKILLS.iterdir() if path.is_dir())
     if not directories:
         print("No skills found", file=sys.stderr)
         return 1
     errors = [error for directory in directories for error in validate_skill(directory)]
+    errors.extend(validate_plugin_manifests())
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
