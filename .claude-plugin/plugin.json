@@ -1,0 +1,20 @@
+{
+  "name": "ai-harness-engineering-skills",
+  "version": "0.1.2",
+  "description": "Governed agent workflows for production-sensitive repositories: verify external reviews, gate plans, bootstrap a minimal harness, and ship one scoped change. Skills are instructions, not authorization.",
+  "author": {
+    "name": "jimisu",
+    "url": "https://github.com/jimisu"
+  },
+  "homepage": "https://github.com/jimisu/ai-harness-engineering-skills",
+  "repository": "https://github.com/jimisu/ai-harness-engineering-skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "harness-engineering",
+    "code-review",
+    "change-management",
+    "codex",
+    "claude-code"
+  ]
+}

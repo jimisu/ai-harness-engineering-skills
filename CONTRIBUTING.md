@@ -27,6 +27,11 @@ Do not put `README.md`, changelogs, or installation guides inside an individual
 skill directory. Keep user documentation at repository level; keep only agent
 instructions and necessary resources inside each skill.
 
+Playground scenarios live under `examples/playground/` and are fixtures, not
+skills. Do not add project-specific production facts to them. Plugin and
+marketplace manifests live under `.claude-plugin/` and must stay valid JSON
+without claiming extra authority.
+
 ## Versioning
 
 This repository uses Semantic Versioning:

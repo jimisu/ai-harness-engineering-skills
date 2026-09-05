@@ -4,11 +4,17 @@
 
 目前版本：`0.1.2`
 
-這是一組從真實 AI 資料監控專案的建立、審查、計畫、實作、驗證與 PR 交付流程中蒸餾出的五個通用 Skills。
+**給生產敏感倉庫用的 agent 變更治理技能。**
+驗證外部 review、為變更設閘門、一次只交付一個範圍，並建立最小且不誇大的 harness。
+這些 Skill 是工作指引，不是授權。
 
-它們保存的是工作方法，不會把特定公司、資料格式、評分權重、production 路徑或專案指令硬套到其他 repository。
+它們來自真實 AI 資料監控專案的建立、審查、計畫、實作、驗證與 PR 交付流程，保存的是工作方法，不會把特定公司、資料格式、評分權重、production 路徑或專案指令硬套到其他 repository。
 
-## Skills 一覽
+本套件不是 harness 模式百科、一鍵產生 `AGENTS.md` 的工具，也不是多智能體 runtime。
+
+## Skills
+
+### 核心
 
 | Skill | 適用時機 |
 |---|---|
@@ -16,17 +22,25 @@
 | `plan-gated-change` | 修改可能需要 execution plan、人類決策、rollback 或 protected-area 授權。 |
 | `deliver-scoped-change` | 要把修改乾淨地放進正確 commit、branch、PR，避免混入其他工作。 |
 | `bootstrap-agent-harness` | 新 repository 需要 agent 規則、架構地圖、plan policy、protected areas 與安全總驗證入口。 |
+
+### 可選領域 Skill
+
+| Skill | 適用時機 |
+|---|---|
 | `design-resilient-http-ingestion` | HTTP 資料管線需要 timeout、有限 retry、取消、deterministic tests 與禁止部分 promotion。 |
+
+只有真正以 HTTP 擷取資料的專案才需要安裝這個 Skill。
 
 ## 安裝方式
 
-### 建議方式：專案內安裝
+檢查每一個被複製的檔案。固定到已審查的 tag 或 commit。在乾淨 feature branch 上安裝。
 
-先 clone 或下載本 repository，完整檢查選定 Skill，再只複製該目錄：
+### 建議方式：專案內複製
 
 ```bash
+git clone --branch v0.1.2 https://github.com/jimisu/ai-harness-engineering-skills.git
 mkdir -p .agents/skills
-cp -R /path/to/ai-harness-engineering-skills/skills/verify-external-ai-review \
+cp -R ai-harness-engineering-skills/skills/verify-external-ai-review \
   .agents/skills/verify-external-ai-review
 ```
 
@@ -35,28 +49,31 @@ cp -R /path/to/ai-harness-engineering-skills/skills/verify-external-ai-review \
 接受安裝前執行：
 
 ```bash
-python3 /path/to/ai-harness-engineering-skills/scripts/validate_skills.py
+python3 ai-harness-engineering-skills/scripts/validate_skills.py
 git status --short
 git diff --check
 ```
 
 必須閱讀 `SKILL.md`、它引用的所有檔案，以及 `agents/openai.yaml`。不要只看 Skill 名稱或 README 就安裝。
 
-### 使用 Skill registry 或 installer
+### Agent Skills installer
 
-如果 AI 工具支援從 GitHub 安裝 Skill，可以指定這個 repository 與精確 Skill 名稱。但不同產品／版本的指令不同，而且某些 installer 可能忽略 skill filter，把整個 repository 全部複製。
+```bash
+npx skills add jimisu/ai-harness-engineering-skills
+```
 
-安全做法：
+不同產品／版本的指令不同，而且某些 installer 可能忽略 skill filter，把整個 repository 全部複製。必須檢查完整 changed-file list，明確移除未要求的目錄，驗證後只 commit 要保留的檔案。
 
-1. 在乾淨 feature branch 安裝。
-2. 檢查完整 changed-file list。
-3. 明確移除未要求的目錄，不用 wildcard 或 `git clean`。
-4. 驗證 Skill。
-5. 只 commit 要保留的檔案。
+### Claude Code plugin
+
+```text
+claude plugin marketplace add jimisu/ai-harness-engineering-skills
+claude plugin install ai-harness-engineering-skills@ai-harness-engineering-skills
+```
+
+安裝後以你使用的 Claude Code 版本確認實際 plugin 清單。`.claude-plugin/` 只提供發現與安裝 metadata，不增加任何授權。
 
 ### 不支援 Skill registry 的 AI
-
-只要 AI 能讀 Markdown，仍可使用：
 
 ```text
 完整閱讀 .agents/skills/verify-external-ai-review/SKILL.md。
@@ -126,6 +143,10 @@ bootstrap-agent-harness
 
 它們可以搭配 grilling、domain modeling、ADR 與 handoff Skills，但不能取代專案政策或 executable tests。
 
+## Playground
+
+[`examples/playground/`](examples/playground/README.md) 提供三個可丟棄劇本：有毒外部 review、髒 worktree 加上受保護路徑、以及唯讀 harness 盤點。它們說明應拒絕的動作與報告形狀，不會自動評分，也不能授權在真實專案上施工。
+
 ## 限制
 
 - Skill 是工作指引，不是權限系統或安全 sandbox。
@@ -158,8 +179,11 @@ python3 scripts/validate_skills.py
 
 若要改善本套件，請閱讀 [貢獻規則](CONTRIBUTING.md)、遵循
 [迭代流程](docs/ITERATION-WORKFLOW.md)，並用
-[驗證案例模板](docs/validation/CASE-TEMPLATE.md) 記錄行為證據。版本變更記錄在
-[CHANGELOG](CHANGELOG.md)。
+[驗證案例模板](docs/validation/CASE-TEMPLATE.md) 記錄行為證據。採用計畫見
+[ROADMAP](docs/ROADMAP.md)。版本變更記錄在 [CHANGELOG](CHANGELOG.md)。
+
+建議在 GitHub repository topics 加上：`agent-skills`、`harness-engineering`、
+`ai-agents`、`code-review`、`change-management`、`codex`、`claude-code`。
 
 ## License
 
